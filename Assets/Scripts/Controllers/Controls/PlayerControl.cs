@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Controllers
 {
-    public class Control : IControlCharacter
+    public class PlayerControl : IControlCharacter
     {
         private Transform _transform;
         private CharacterController _controller;
@@ -21,7 +21,7 @@ namespace Assets.Scripts.Controllers
         private Animator _animator;
         private bool _isJumping;
 
-        public Control(CharacterModel model, Character character)
+        public PlayerControl(CharacterModel model, Character character)
         {
             _character = character;
             _animator = new Animator(model.GameObject, model.Speed.Movement);
@@ -33,7 +33,7 @@ namespace Assets.Scripts.Controllers
 
             _jumpHeight = model.JumpHeight;
             _speed = model.Speed;
-            _waterRayOrigin = model.WaterRayOrigin;
+            _waterRayOrigin = _transform.Find("WaterChecker");
 
             _turnTarget = _transform.rotation;
 
@@ -64,9 +64,16 @@ namespace Assets.Scripts.Controllers
 
             if (Physics.Raycast(ray, out hitInfo))
             {
-                if (hitInfo.collider.gameObject.name == "Water" && _controller.isGrounded)
+                if (_controller.isGrounded)
                 {
-                    _character.HandleNearWater(hitInfo);
+                    if (hitInfo.collider.gameObject.name == "Water")
+                    {
+                        _character.HandleNearWater(hitInfo);
+                    }
+                    else if (hitInfo.collider.gameObject.name == "Path")
+                    {
+                        _character.HandleOnPath(hitInfo);
+                    }
                 }
             }
 

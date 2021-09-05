@@ -67,7 +67,7 @@ namespace Assets.Scripts.Controllers
             OnVictory?.Invoke();
         }
 
-        private void DropPlank(RaycastHit hitInfo)
+        protected virtual void DropPlank(RaycastHit hitInfo)
         {
             var newPlankPosition = hitInfo.point;
             var distance = Vector3.Distance(newPlankPosition, _lastPlankPosition);
@@ -75,13 +75,17 @@ namespace Assets.Scripts.Controllers
             if (distance >= 1.5f)
             {
                 PlankCount--;
+                _lastPlankPosition = newPlankPosition;
 
                 var plank = GameObject.Instantiate(_plankTemplate);
                 plank.transform.position = newPlankPosition;
                 plank.transform.rotation = _transform.rotation;
-
-                _lastPlankPosition = newPlankPosition;
             }
+        }
+
+        public virtual void HandleOnPath(RaycastHit hitInfo)
+        {
+
         }
     }
 }

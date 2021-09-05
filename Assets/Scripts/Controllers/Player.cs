@@ -12,7 +12,7 @@ namespace Assets.Scripts.Controllers
         public Player(CharacterModel model, GameObject plankTemplate, Transform goal) : 
             base(model, plankTemplate, goal)
         {
-            Control = new Control(model, this);
+            Control = new PlayerControl(model, this);
 
             _plankInformation = model.PlankInformation;
             if (_plankInformation != null)

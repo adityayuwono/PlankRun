@@ -8,7 +8,6 @@ namespace Assets.Scripts.Models
     public class CharacterModel
     {
         public GameObject GameObject;
-        public Transform WaterRayOrigin;
         public Text PlankInformation;
         public SpeedModel Speed;
         public float JumpHeight;
