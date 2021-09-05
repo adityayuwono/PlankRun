@@ -13,6 +13,8 @@ namespace Assets.Scripts.Controllers
 
         public IControlCharacter Control;
 
+        protected Transform Goal;
+
         private Transform _transform;
         private GameObject _plankTemplate;
 
@@ -21,14 +23,15 @@ namespace Assets.Scripts.Controllers
         public Character(CharacterModel model, GameObject plankTemplate, Transform goal)
         {
             _transform = model.GameObject.transform;
-            
             _plankTemplate = plankTemplate;
+            Goal = goal;
 
             var collisionHandler = model.GameObject.GetComponentInChildren<CollisionHandler>();
             collisionHandler.OnCollision += HandleVisionCollision;
         }
 
         public virtual int PlankCount { get; protected set; }
+        public float DistanceToGoal { get { return Vector3.Distance(_transform.position, Goal.position); } }
 
         public void AddPlank()
         {
@@ -57,7 +60,7 @@ namespace Assets.Scripts.Controllers
             Control = new DisabledControl();
             OnGameOver?.Invoke();
         }
-        
+
         public void Victory()
         {
             Control = new DisabledControl();

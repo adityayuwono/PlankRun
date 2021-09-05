@@ -4,7 +4,6 @@ using Assets.Scripts.Interfaces;
 using Assets.Scripts.Managers;
 using Assets.Scripts.Models;
 using Assets.Scripts.Models.Enums;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -17,8 +16,11 @@ namespace Assets.Scripts
         [SerializeField] private CharacterModel _playerModel;
         [SerializeField] private CharacterModel[] _enemies;
         [SerializeField] private GameObject _plankTemplate;
-        [SerializeField] private Button _restartGameButton;
         [SerializeField] private Transform _goal;
+
+        [Header("UI")]
+        [SerializeField] private Button _restartGameButton;
+        [SerializeField] private Text _leadershipInformation;
 
         private Character _player;
         private List<Enemy> _enemyControllers = new List<Enemy>();
@@ -54,10 +56,19 @@ namespace Assets.Scripts
 
             InputHandler.ProcessForRotation(_player.Control.Rotate);
 
+            var playerPosition = 1;
+
             foreach(var enemy in _enemyControllers)
             {
+                if (enemy.DistanceToGoal < _player.DistanceToGoal)
+                {
+                    playerPosition++;
+                }
+
                 enemy.Update();
             }
+
+            _leadershipInformation.text = playerPosition.ToString();
         }
 
         protected override void State_GameOver()

@@ -3557,7 +3557,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _activeUI:
     GameState: 0
-    UIRoots: []
+    UIRoots:
+    - {fileID: 1014860917}
   _uis:
   - GameState: 0
     UIRoots:
@@ -3578,7 +3579,7 @@ MonoBehaviour:
     WaterRayOrigin: {fileID: 114505680}
     PlankInformation: {fileID: 1631365505}
     Speed:
-      Movement: 0
+      Movement: 12
       Rotation: 60
     JumpHeight: 2
   _enemies:
@@ -3605,8 +3606,9 @@ MonoBehaviour:
     JumpHeight: 2
   _plankTemplate: {fileID: 1279328231221047687, guid: 148685c007801be45a064f2452e6861e,
     type: 3}
-  _restartGameButton: {fileID: 1700942169}
   _goal: {fileID: 1464445196}
+  _restartGameButton: {fileID: 1700942169}
+  _leadershipInformation: {fileID: 1536006739}
 --- !u!1001 &1126707269
 PrefabInstance:
   m_ObjectHideFlags: 0
