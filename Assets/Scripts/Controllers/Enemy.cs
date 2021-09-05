@@ -4,7 +4,6 @@ using Assets.Scripts.Models;
 using System;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.UI;
 
 namespace Assets.Scripts.Controllers
 {
@@ -17,12 +16,9 @@ namespace Assets.Scripts.Controllers
 
         private Transform _shortcutCollider;
 
-        private IEnemyStrategy _strategy;
-
         private Action _movementStrategy;
         private Action _shortcutStrategy;
         private Action<Transform> _interactStrategy;
-        private CharacterModel _model;
         
         private bool _isOnShortcut;
 
@@ -32,10 +28,8 @@ namespace Assets.Scripts.Controllers
         public Enemy(CharacterModel model, GameObject plankTemplate, Transform goal) :
             base(model, plankTemplate, goal)
         {
-            _model = model;
             _enemyControl = new EnemyControl(model, this);
             _shortcutControl = new PlayerControl(model, this);
-            Control = _enemyControl;
 
             _agent = model.GameObject.GetComponent<NavMeshAgent>();
             _agent.speed = model.Speed.Movement;
@@ -43,13 +37,11 @@ namespace Assets.Scripts.Controllers
 
             _collisionHandler = model.GameObject.GetComponentInChildren<VisionCollisionHandler>();
 
-            _shortcutChecker = model.GameObject.transform.Find("ShortcutChecker");
-            _shortcutCollider = model.GameObject.transform.Find("ShortcutCollider");
+            _shortcutChecker = Transform.Find("ShortcutChecker");
+            _shortcutCollider = Transform.Find("ShortcutCollider");
             _shortcutCollider.GetComponent<ShortcutCollisionCheck>().Enemy = this;
 
-            _movementStrategy = NavigateToGoal;
-            _shortcutStrategy = CheckPossibleShortcut;
-            _interactStrategy = GoToVisibleInteractables;
+            UseNavigationStrategy();
         }
 
         public void Start()
@@ -86,13 +78,13 @@ namespace Assets.Scripts.Controllers
         public override void HandleOnPath(RaycastHit hitInfo)
         {
             var hit = new NavMeshHit();
-            var isOnNavMesh = NavMesh.SamplePosition(_model.GameObject.transform.position, out hit, 1.6f, NavMesh.AllAreas);
+            var isOnNavMesh = NavMesh.SamplePosition(Transform.position, out hit, 1.6f, NavMesh.AllAreas);
 
             if (_isOnShortcut && isOnNavMesh)
             {
                 _isOnShortcut = false;
 
-                GoBackToPathNavigation();
+                UseNavigationStrategy();
             }
         }
 
@@ -126,17 +118,23 @@ namespace Assets.Scripts.Controllers
         {
             if (PlankCount >= 15)
             {
-                _agent.enabled = false;
-
-                Control = _shortcutControl;
-                _movementStrategy = TakeShortcut;
-                _shortcutStrategy = null;
-                _interactStrategy = null;
-                _shortcutCollider.SetParent(null);
+                UseShortcutStrategy();
             }
         }
 
-        private void GoBackToPathNavigation()
+        private void UseShortcutStrategy()
+        {
+            _agent.enabled = false;
+
+            Control = _shortcutControl;
+            _movementStrategy = TakeShortcut;
+            _shortcutStrategy = null;
+            _interactStrategy = null;
+
+            _shortcutCollider.SetParent(null);
+        }
+
+        private void UseNavigationStrategy()
         {
             _agent.enabled = true;
 
@@ -145,7 +143,7 @@ namespace Assets.Scripts.Controllers
             _shortcutStrategy = CheckPossibleShortcut;
             _interactStrategy = GoToVisibleInteractables;
 
-            _shortcutCollider.SetParent(_model.GameObject.transform);
+            _shortcutCollider.SetParent(Transform);
         }
 
         private void GoToVisibleInteractables(Transform transform)

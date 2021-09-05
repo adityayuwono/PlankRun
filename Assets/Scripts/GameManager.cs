@@ -34,6 +34,7 @@ namespace Assets.Scripts
             _restartGameButton.onClick.AddListener(RestartGame);
 
             _onStateChanged.Add(GameState.Playing, OnPlayingStart);
+            _onStateChanged.Add(GameState.GameOver, OnGameOver);
 
             InputHandler = new Mouse();
 
@@ -73,7 +74,7 @@ namespace Assets.Scripts
 
         protected override void State_GameOver()
         {
-
+            
         }
 
         protected override void State_Victory()
@@ -103,6 +104,14 @@ namespace Assets.Scripts
             foreach (var enemy in _enemyControllers)
             {
                 enemy.Start();
+            }
+        }
+
+        private void OnGameOver()
+        {
+            foreach(var enemy in _enemyControllers)
+            {
+                enemy.GameOver(true);
             }
         }
 

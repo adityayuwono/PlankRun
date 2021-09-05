@@ -14,26 +14,27 @@ namespace Assets.Scripts.Controllers
         public IControlCharacter Control;
 
         protected Transform Goal;
+        protected Transform Transform;
+
         private Transform _plankRoot;
-        private Transform _transform;
         private GameObject _plankTemplate;
 
         private Vector3 _lastPlankPosition;
 
         public Character(CharacterModel model, GameObject plankTemplate, Transform goal)
         {
-            _transform = model.GameObject.transform;
+            Transform = model.GameObject.transform;
             _plankTemplate = plankTemplate;
             Goal = goal;
 
-            _plankRoot = _transform.Find("PlankRoot");
+            _plankRoot = Transform.Find("PlankRoot");
 
             var collisionHandler = model.GameObject.GetComponentInChildren<CollisionHandler>();
             collisionHandler.OnCollision += HandleVisionCollision;
         }
 
         public virtual int PlankCount { get; protected set; }
-        public float DistanceToGoal { get { return Vector3.Distance(_transform.position, Goal.position); } }
+        public float DistanceToGoal { get { return Vector3.Distance(Transform.position, Goal.position); } }
 
         public virtual void Update()
         {
@@ -74,10 +75,13 @@ namespace Assets.Scripts.Controllers
             }
         }
 
-        public void GameOver()
+        public void GameOver(bool isForced = false)
         {
-            Control = new DisabledControl();
-            OnGameOver?.Invoke();
+            if (isForced || PlankCount <= 0)
+            {
+                Control = new DisabledControl();
+                OnGameOver?.Invoke();
+            }
         }
 
         public void Victory()
@@ -98,7 +102,7 @@ namespace Assets.Scripts.Controllers
 
                 var plank = GameObject.Instantiate(_plankTemplate);
                 plank.transform.position = newPlankPosition;
-                plank.transform.rotation = _transform.rotation;
+                plank.transform.rotation = Transform.rotation;
             }
         }
 
