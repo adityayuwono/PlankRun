@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Extensions;
+using Assets.Scripts.Interfaces;
 using Assets.Scripts.Models;
 using System;
 using UnityEngine;
@@ -16,18 +17,25 @@ namespace Assets.Scripts.Controllers
 
         private Transform _shortcutCollider;
 
+        private IEnemyStrategy _strategy;
+
         private Action _movementStrategy;
         private Action _shortcutStrategy;
         private Action<Transform> _interactStrategy;
         private CharacterModel _model;
-
+        
         private bool _isOnShortcut;
+
+        private IControlCharacter _enemyControl;
+        private IControlCharacter _shortcutControl;
 
         public Enemy(CharacterModel model, GameObject plankTemplate, Transform goal) :
             base(model, plankTemplate, goal)
         {
             _model = model;
-            Control = new EnemyControl(model, this);
+            _enemyControl = new EnemyControl(model, this);
+            _shortcutControl = new PlayerControl(model, this);
+            Control = _enemyControl;
 
             _agent = model.GameObject.GetComponent<NavMeshAgent>();
             _agent.speed = model.Speed.Movement;
@@ -55,15 +63,15 @@ namespace Assets.Scripts.Controllers
         {
             base.Update();
 
-            _movementStrategy();
+            _movementStrategy?.Invoke();
         }
 
-        public void TargetInteractable(Transform transform)
+        public void DoTargetInteractable(Transform transform)
         {
             _interactStrategy?.Invoke(transform);
         }
 
-        public void TryTakingShortcut()
+        public void DoShortcut()
         {
             _shortcutStrategy?.Invoke();
         }
@@ -120,7 +128,7 @@ namespace Assets.Scripts.Controllers
             {
                 _agent.enabled = false;
 
-                Control = new PlayerControl(_model, this);
+                Control = _shortcutControl;
                 _movementStrategy = TakeShortcut;
                 _shortcutStrategy = null;
                 _interactStrategy = null;
@@ -132,7 +140,7 @@ namespace Assets.Scripts.Controllers
         {
             _agent.enabled = true;
 
-            Control = new EnemyControl(_model, this);
+            Control = _enemyControl;
             _movementStrategy = NavigateToGoal;
             _shortcutStrategy = CheckPossibleShortcut;
             _interactStrategy = GoToVisibleInteractables;

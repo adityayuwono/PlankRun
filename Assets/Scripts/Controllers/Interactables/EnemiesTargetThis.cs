@@ -12,7 +12,7 @@ namespace Assets.Scripts.Controllers.Interactables
         public virtual void Vision(Character character)
         {
             var enemy = character as Enemy;
-            enemy?.TargetInteractable(transform);
+            enemy?.DoTargetInteractable(transform);
         }
     }
 }

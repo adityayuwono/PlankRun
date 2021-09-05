@@ -9,7 +9,7 @@ public class ShortcutCollisionCheck : MonoBehaviour
     {
         if (other.gameObject.name == "Path")
         {
-            Enemy.TryTakingShortcut();
+            Enemy.DoShortcut();
         }
     }
 }

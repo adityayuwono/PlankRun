@@ -1,6 +1,5 @@
 ﻿using Assets.Scripts.Interfaces;
 using Assets.Scripts.Models;
-using System;
 
 namespace Assets.Scripts.Controllers
 {
@@ -15,12 +14,12 @@ namespace Assets.Scripts.Controllers
 
         public void BoostedJump()
         {
-            throw new NotImplementedException();
+            
         }
 
         public void Jump(float multiplier = 1)
         {
-            throw new NotImplementedException();
+            
         }
 
         public void Move()
@@ -30,7 +29,7 @@ namespace Assets.Scripts.Controllers
 
         public void Rotate(float signedDirection)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }
