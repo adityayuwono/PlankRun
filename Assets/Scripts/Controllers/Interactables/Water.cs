@@ -7,4 +7,9 @@ public class Water : MonoBehaviour, IInteractable
     {
         character.GameOver();
     }
+
+    public void Vision(Character character)
+    {
+
+    }
 }

@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{0FE12C85-BACE-42EE-0AA7-91BF0A0B88DB}</ProjectGuid>
+    <ProjectGuid>{236B90AF-14D3-B739-79EF-AD7F7277F833}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>GameFiveRun</AssemblyName>
@@ -54,15 +54,22 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Extensions\UnityExtensions.cs" />
+    <Compile Include="Assets\Scripts\Components\VisionCollisionHandler.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Controls\Control.cs" />
     <Compile Include="Assets\Scripts\Managers\StageManager.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Interactables\EnemiesTargetThis.cs" />
     <Compile Include="Assets\Scripts\Components\CollisionHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\Interactables\Water.cs" />
     <Compile Include="Assets\Scripts\Controllers\Animator.cs" />
+    <Compile Include="Assets\Scripts\Models\StateUIModel.cs" />
     <Compile Include="Assets\Scripts\Models\CharacterModel.cs" />
-    <Compile Include="Assets\Scripts\Controllers\DisabledControl.cs" />
-    <Compile Include="Assets\Scripts\Controllers\Control.cs" />
+    <Compile Include="Assets\Scripts\Models\Enums\GameState.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Enemy.cs" />
+    <Compile Include="Assets\Scripts\Managers\GameStateManager.cs" />
     <Compile Include="Assets\Scripts\Models\SpeedModel.cs" />
     <Compile Include="Assets\Scripts\Components\ControllerContainer.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Controls\DisabledControl.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Player.cs" />
     <Compile Include="Assets\Scripts\Controllers\Inputs\Touch.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IControlCharacter.cs" />
     <Compile Include="Assets\Scripts\Constants\WorldValues.cs" />
@@ -71,13 +78,11 @@
     <Compile Include="Assets\Scripts\Controllers\Inputs\Mouse.cs" />
     <Compile Include="Assets\Scripts\Controllers\Interactables\Plank.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IHandleInput.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Controls\EnemyControl.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IInteractable.cs" />
     <Compile Include="Assets\Scripts\Controllers\Controller.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Interactables\Goal.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
-    <Compile Include="Assets\Scripts\Managers\GameStateManager.cs" />
-    <Compile Include="Assets\Scripts\Models\Enums\GameState.cs" />
-    <Compile Include="Assets\Scripts\Models\StateUIModel.cs" />
-    <Compile Include="Assets\Scripts\Controllers\Enemy.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scripts\GameFiveRun.asmdef" />
@@ -668,11 +673,11 @@
     <Reference Include="System.Xml.Serialization">
       <HintPath>C:\Program Files\Unity\Hub\2020.3.16f1\Editor\Data\NetStandard\compat\2.0.0\shims\netfx\System.Xml.Serialization.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

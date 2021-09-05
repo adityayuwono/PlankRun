@@ -12,5 +12,11 @@ namespace Assets.Scripts.Components
             var interactable = hit.gameObject.GetComponent<IInteractable>();
             OnCollision?.Invoke(interactable);
         }
+
+        private void OnTriggerEnter(Collider hit)
+        {
+            var interactable = hit.gameObject.GetComponent<IInteractable>();
+            OnCollision?.Invoke(interactable);
+        }
     }
 }

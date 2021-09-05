@@ -1,10 +1,8 @@
-﻿using UnityEngine;
-
-namespace Assets.Scripts.Controllers.Interactables
+﻿namespace Assets.Scripts.Controllers.Interactables
 {
-    public class JumpBooster : MonoBehaviour, IInteractable
+    public class JumpBooster : EnemiesTargetThis, IInteractable
     {
-        public void Interact(Character character)
+        public override void Interact(Character character)
         {
             character.Control.BoostedJump();
         }

@@ -1,17 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine.AI;
 
 namespace Assets.Scripts.Extensions
 {
     public static class UnityExtensions
     {
-        public static void Move(this Transform transform, Vector3 destination)
+        public static bool ReachedDestination(this NavMeshAgent agent)
         {
+            if (!agent.pathPending)
+            {
+                if (agent.remainingDistance <= agent.stoppingDistance)
+                {
+                    if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
+                    {
+                        return true;
+                    }
+                }
+            }
 
+            return false;
         }
     }
 }

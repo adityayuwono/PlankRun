@@ -15,7 +15,7 @@ namespace Assets.Scripts.Controllers
         private SpeedModel _speed;
         private Quaternion _turnTarget;
         private RaycastHit hitInfo;
-        private Vector3 _playerVelocity;
+        private Vector3 _velocity;
         private Character _character;
 
         private Animator _animator;
@@ -57,9 +57,9 @@ namespace Assets.Scripts.Controllers
 
             var ray = new Ray(_waterRayOrigin.position, Vector3.down);
             
-            if (_controller.isGrounded && _playerVelocity.y < 0)
+            if (_controller.isGrounded && _velocity.y < 0)
             {
-                _playerVelocity.y = 0f;
+                _velocity.y = 0f;
             }
 
             if (Physics.Raycast(ray, out hitInfo))
@@ -70,10 +70,10 @@ namespace Assets.Scripts.Controllers
                 }
             }
 
-            _playerVelocity.y += WorldValues.Gravity * Time.deltaTime;
+            _velocity.y += WorldValues.Gravity * Time.deltaTime;
 
             Vector3 move = _transform.forward.normalized * _speed.Movement;
-            move.y = _playerVelocity.y;
+            move.y = _velocity.y;
 
             _controller.Move(move * Time.deltaTime);
 
@@ -93,7 +93,7 @@ namespace Assets.Scripts.Controllers
         {
             _isJumping = true;
             _animator.Jump();
-            _playerVelocity.y += Mathf.Sqrt(_jumpHeight * -3.0f * WorldValues.Gravity * multiplier);
+            _velocity.y += Mathf.Sqrt(_jumpHeight * -3.0f * WorldValues.Gravity * multiplier);
             _turnTarget = _transform.rotation;
         }
 

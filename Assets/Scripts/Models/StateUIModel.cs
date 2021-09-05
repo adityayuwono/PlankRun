@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Models.Enums;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.Models
@@ -8,6 +9,14 @@ namespace Assets.Scripts.Models
     public class StateUIModel
     {
         public GameState GameState;
-        public GameObject UIRoot;
+        public List<GameObject> UIRoots;
+
+        public void SetActive(bool isActive)
+        {
+            foreach(var uiRoot in UIRoots)
+            {
+                uiRoot.SetActive(isActive);
+            }
+        }
     }
 }

@@ -7,6 +7,7 @@ namespace Assets.Scripts.Models.Enums
     {
         StartMenu,
         Playing,
-        GameOver
+        GameOver,
+        Victory
     }
 }
