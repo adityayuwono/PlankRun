@@ -14,7 +14,7 @@ namespace Assets.Scripts.Controllers
         public IControlCharacter Control;
 
         protected Transform Goal;
-
+        private Transform _plankRoot;
         private Transform _transform;
         private GameObject _plankTemplate;
 
@@ -26,6 +26,8 @@ namespace Assets.Scripts.Controllers
             _plankTemplate = plankTemplate;
             Goal = goal;
 
+            _plankRoot = _transform.Find("PlankRoot");
+
             var collisionHandler = model.GameObject.GetComponentInChildren<CollisionHandler>();
             collisionHandler.OnCollision += HandleVisionCollision;
         }
@@ -33,9 +35,26 @@ namespace Assets.Scripts.Controllers
         public virtual int PlankCount { get; protected set; }
         public float DistanceToGoal { get { return Vector3.Distance(_transform.position, Goal.position); } }
 
-        public void AddPlank()
+        public virtual void Update()
+        {
+            Control.Move();
+        }
+
+        public void AddPlank(Transform plank)
         {
             PlankCount++;
+
+            plank.GetComponent<Collider>().enabled = false;
+            plank.SetParent(_plankRoot, false);
+            plank.localPosition = Vector3.up * PlankCount * 0.2f;
+        }
+
+        public void RemovePlank()
+        {
+            PlankCount--;
+
+            var plank = _plankRoot.GetChild(PlankCount);
+            GameObject.Destroy(plank.gameObject);
         }
 
         private void HandleVisionCollision(IInteractable collidee)
@@ -74,7 +93,7 @@ namespace Assets.Scripts.Controllers
 
             if (distance >= 1.5f)
             {
-                PlankCount--;
+                RemovePlank();
                 _lastPlankPosition = newPlankPosition;
 
                 var plank = GameObject.Instantiate(_plankTemplate);

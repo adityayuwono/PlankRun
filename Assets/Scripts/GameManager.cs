@@ -52,7 +52,7 @@ namespace Assets.Scripts
 
         protected override void State_Playing()
         {
-            _player.Control.Move();
+            _player.Update();
 
             InputHandler.ProcessForRotation(_player.Control.Rotate);
 

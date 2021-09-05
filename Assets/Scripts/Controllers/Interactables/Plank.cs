@@ -9,8 +9,7 @@
             if (!_isDisabled)
             {
                 _isDisabled = true;
-                character.AddPlank();
-                Destroy(gameObject);
+                character.AddPlank(transform);
             }
         }
     }

@@ -51,9 +51,9 @@ namespace Assets.Scripts.Controllers
             _collisionHandler.OnVision += HandleVisionCollision;
         }
 
-        public void Update()
+        public override void Update()
         {
-            Control.Move();
+            base.Update();
 
             _movementStrategy();
         }
@@ -78,7 +78,7 @@ namespace Assets.Scripts.Controllers
         public override void HandleOnPath(RaycastHit hitInfo)
         {
             var hit = new NavMeshHit();
-            var isOnNavMesh = NavMesh.SamplePosition(_model.GameObject.transform.position, out hit, 2.1f, NavMesh.AllAreas);
+            var isOnNavMesh = NavMesh.SamplePosition(_model.GameObject.transform.position, out hit, 1.6f, NavMesh.AllAreas);
 
             if (_isOnShortcut && isOnNavMesh)
             {
