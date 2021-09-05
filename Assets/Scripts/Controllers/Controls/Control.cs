@@ -42,7 +42,7 @@ namespace Assets.Scripts.Controllers
 
         public void Move()
         {
-            if (_controller.isGrounded)
+            if (_controller.isGrounded && _velocity.y < 0.1f)
             {
                 if (_isJumping)
                 {
@@ -56,7 +56,7 @@ namespace Assets.Scripts.Controllers
             }
 
             var ray = new Ray(_waterRayOrigin.position, Vector3.down);
-            
+
             if (_controller.isGrounded && _velocity.y < 0)
             {
                 _velocity.y = 0f;
@@ -77,11 +77,8 @@ namespace Assets.Scripts.Controllers
 
             _controller.Move(move * Time.deltaTime);
 
-            if (_controller.isGrounded)
-            {
-                var turnTarget = Quaternion.SlerpUnclamped(_transform.rotation, _turnTarget, Time.deltaTime);
-                _transform.rotation = turnTarget;
-            }
+            var turnTarget = Quaternion.SlerpUnclamped(_transform.rotation, _turnTarget, Time.deltaTime);
+            _transform.rotation = turnTarget;
         }
 
         public void Rotate(float signedDirection)
@@ -93,13 +90,13 @@ namespace Assets.Scripts.Controllers
         {
             _isJumping = true;
             _animator.Jump();
-            _velocity.y += Mathf.Sqrt(_jumpHeight * -3.0f * WorldValues.Gravity * multiplier);
+            _velocity.y += Mathf.Sqrt(_jumpHeight * -3.0f * WorldValues.Gravity) * multiplier;
             _turnTarget = _transform.rotation;
         }
 
         public void BoostedJump()
         {
-            Jump(3f);
+            Jump(2.5f);
         }
     }
 }
