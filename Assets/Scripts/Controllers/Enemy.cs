@@ -24,6 +24,7 @@ namespace Assets.Scripts.Controllers
 
         private IControlCharacter _enemyControl;
         private IControlCharacter _shortcutControl;
+        private bool _isGoingToInteractables;
 
         public Enemy(CharacterModel model, GameObject plankTemplate, Transform goal) :
             base(model, plankTemplate, goal)
@@ -97,7 +98,20 @@ namespace Assets.Scripts.Controllers
         {
             if (_agent.ReachedDestination())
             {
-                _agent.SetDestination(_goal.position);
+                if (_isGoingToInteractables)
+                {
+                    _isGoingToInteractables = false;
+                }
+                else
+                {
+                    var nextGoal = _goal.GetChild(0);
+                    if (nextGoal != null)
+                    {
+                        _goal = nextGoal;
+                    }
+                }
+
+                UpdateDestination(_goal);
             }
 
             _shortcutChecker.LookAt(_goal);
@@ -150,8 +164,15 @@ namespace Assets.Scripts.Controllers
         {
             if (UnityEngine.Random.Range(0, 10) < 1 && PlankCount < 30)
             {
-                _agent.SetDestination(transform.position);
+                _isGoingToInteractables = true;
+                UpdateDestination(transform);
             }
+        }
+
+        private void UpdateDestination(Transform destination)
+        {
+            Debug.Log("new destination: " + destination.gameObject.name);
+            _agent.SetDestination(destination.position);
         }
     }
 }

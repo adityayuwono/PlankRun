@@ -16,7 +16,7 @@ namespace Assets.Scripts
         [SerializeField] private CharacterModel _playerModel;
         [SerializeField] private CharacterModel[] _enemies;
         [SerializeField] private GameObject _plankTemplate;
-        [SerializeField] private Transform _goal;
+        [SerializeField] private StageModel _stage;
 
         [Header("UI")]
         [SerializeField] private Button _restartGameButton;
@@ -84,7 +84,7 @@ namespace Assets.Scripts
 
         private void CreatePlayer()
         {
-            _player = new Player(_playerModel, _plankTemplate, _goal);
+            _player = new Player(_playerModel, _plankTemplate, _stage.FinalGoal);
             _player.OnGameOver += () => GoToState(GameState.GameOver);
             _player.OnVictory += () => GoToState(GameState.Victory);
         }
@@ -93,7 +93,7 @@ namespace Assets.Scripts
         {
             foreach (var enemy in _enemies)
             {
-                var enemyController = new Enemy(enemy, _plankTemplate, _goal);
+                var enemyController = new Enemy(enemy, _plankTemplate, _stage.EnemyGoalHierarchy);
                 enemyController.OnVictory += () => GoToState(GameState.GameOver);
                 _enemyControllers.Add(enemyController);
             }

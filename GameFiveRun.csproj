@@ -56,7 +56,6 @@
     <Compile Include="Assets\Scripts\Extensions\UnityExtensions.cs" />
     <Compile Include="Assets\Scripts\Components\VisionCollisionHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\Controls\PlayerControl.cs" />
-    <Compile Include="Assets\Scripts\Managers\StageManager.cs" />
     <Compile Include="Assets\Scripts\Controllers\Interactables\EnemiesTargetThis.cs" />
     <Compile Include="Assets\Scripts\Components\CollisionHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\Interactables\Water.cs" />
@@ -84,6 +83,7 @@
     <Compile Include="Assets\Scripts\Controllers\Interactables\Goal.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\Components\ShortcutCollisionCheck.cs" />
+    <Compile Include="Assets\Scripts\Models\StageModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scripts\GameFiveRun.asmdef" />
