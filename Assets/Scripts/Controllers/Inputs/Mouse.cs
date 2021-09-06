@@ -25,7 +25,7 @@ namespace Assets.Scripts.Controllers.Inputs
                 if (_isDown)
                 {
                     var direction = Input.mousePosition.x - _initialPosition.x;
-                    OnRotate(direction/Screen.width);
+                    OnRotate(direction / Screen.width);
                 }
 
                 _isDown = false;

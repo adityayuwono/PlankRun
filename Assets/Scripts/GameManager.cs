@@ -138,7 +138,7 @@ namespace Assets.Scripts
         {
             foreach (var enemy in _enemyControllers)
             {
-                enemy.GameOver(true);
+                enemy.GameOver();
             }
         }
         #endregion

@@ -1,4 +1,6 @@
 ﻿using Assets.Scripts.Components;
+using Assets.Scripts.Constants;
+using Assets.Scripts.Extensions;
 using Assets.Scripts.Interfaces;
 using Assets.Scripts.Models;
 using DG.Tweening;
@@ -29,11 +31,7 @@ namespace Assets.Scripts.Controllers
             Transform = model.GameObject.transform;
             _plankTemplate = plankTemplate;
 
-            _finalGoal = goal;
-            while (_finalGoal.childCount > 0)
-            {
-                _finalGoal = _finalGoal.GetChild(0);
-            }
+            _finalGoal = goal.LastDescendant();
 
             _plankRoot = Transform.Find("PlankRoot");
 
@@ -121,11 +119,8 @@ namespace Assets.Scripts.Controllers
 
         public void GameOver(bool isForced = false)
         {
-            if (isForced || PlankCount <= 0)
-            {
-                Control = new DisabledControl();
-                OnGameOver?.Invoke();
-            }
+            Control = new DisabledControl();
+            OnGameOver?.Invoke();
         }
 
         public void Victory()
@@ -139,7 +134,7 @@ namespace Assets.Scripts.Controllers
             var newPlankPosition = hitInfo.point;
             var distance = Vector3.Distance(newPlankPosition, _lastPlankPosition);
 
-            if (distance >= 1.5f)
+            if (distance >= WorldValues.PlankSpacing)
             {
                 RemovePlank(newPlankPosition);
                 _lastPlankPosition = newPlankPosition;

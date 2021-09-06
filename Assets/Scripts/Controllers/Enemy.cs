@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Extensions;
+﻿using Assets.Scripts.Constants;
+using Assets.Scripts.Extensions;
 using Assets.Scripts.Interfaces;
 using Assets.Scripts.Models;
 using System;
@@ -25,6 +26,7 @@ namespace Assets.Scripts.Controllers
         private IControlCharacter _enemyControl;
         private IControlCharacter _shortcutControl;
         private bool _isGoingToInteractables;
+        private MeshRenderer _shortcutCheckerRenderer;
 
         public Enemy(CharacterModel model, GameObject plankTemplate, Transform goal) :
             base(model, plankTemplate, goal)
@@ -41,6 +43,7 @@ namespace Assets.Scripts.Controllers
             _shortcutChecker = Transform.Find("ShortcutChecker");
             _shortcutCollider = Transform.Find("ShortcutCollider");
             _shortcutCollider.GetComponent<ShortcutCollisionCheck>().Enemy = this;
+            _shortcutCheckerRenderer = _shortcutChecker.GetComponentInChildren<MeshRenderer>();
 
             UseNavigationStrategy();
         }
@@ -78,10 +81,7 @@ namespace Assets.Scripts.Controllers
 
         public override void HandleOnPath(RaycastHit hitInfo)
         {
-            var hit = new NavMeshHit();
-            var isOnNavMesh = NavMesh.SamplePosition(Transform.position, out hit, 1.6f, NavMesh.AllAreas);
-
-            if (_isOnShortcut && isOnNavMesh)
+            if (_isOnShortcut && IsOnNavMesh())
             {
                 _isOnShortcut = false;
 
@@ -116,10 +116,10 @@ namespace Assets.Scripts.Controllers
 
             _shortcutChecker.LookAt(_goal);
             var scale = _shortcutChecker.localScale;
-            scale.z = PlankCount * 1.5f;
+            scale.z = PlankCount * WorldValues.PlankSpacing;
             _shortcutChecker.localScale = scale;
 
-            var tipPosition = _shortcutChecker.GetComponentInChildren<MeshRenderer>().bounds.max;
+            var tipPosition = _shortcutCheckerRenderer.bounds.max;
             _shortcutCollider.position = tipPosition;
         }
 
@@ -172,6 +172,13 @@ namespace Assets.Scripts.Controllers
         private void UpdateDestination(Transform destination)
         {
             _agent.SetDestination(destination.position);
+        }
+
+        private bool IsOnNavMesh()
+        {
+            var hit = new NavMeshHit();
+            var isOnNavMesh = NavMesh.SamplePosition(Transform.position, out hit, 1.6f, NavMesh.AllAreas);
+            return isOnNavMesh;
         }
     }
 }

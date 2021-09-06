@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Constants;
+using Assets.Scripts.Extensions;
 using Assets.Scripts.Interfaces;
 using Assets.Scripts.Models;
 using UnityEngine;
@@ -66,11 +67,11 @@ namespace Assets.Scripts.Controllers
             {
                 if (_controller.isGrounded)
                 {
-                    if (hitInfo.collider.gameObject.name == "Water")
+                    if (hitInfo.Name() == "Water")
                     {
                         _character.HandleNearWater(hitInfo);
                     }
-                    else if (hitInfo.collider.gameObject.name == "Path")
+                    else if (hitInfo.Name() == "Path")
                     {
                         _character.HandleOnPath(hitInfo);
                     }

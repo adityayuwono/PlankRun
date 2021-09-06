@@ -720,6 +720,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1871321875}
     m_Modifications:
+    - target: {fileID: 278615172506386097, guid: 6e34d528ff6d3ce44bc22e1f82710795,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 80
+      objectReference: {fileID: 0}
     - target: {fileID: 278615172506386102, guid: 6e34d528ff6d3ce44bc22e1f82710795,
         type: 3}
       propertyPath: m_RootOrder
@@ -3022,6 +3027,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 278615172506386097, guid: 6e34d528ff6d3ce44bc22e1f82710795,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 80
+      objectReference: {fileID: 0}
     - target: {fileID: 278615172506386102, guid: 6e34d528ff6d3ce44bc22e1f82710795,
         type: 3}
       propertyPath: m_RootOrder
@@ -3676,7 +3686,7 @@ MonoBehaviour:
     PlankInformation: {fileID: 1631365505}
     Speed:
       Movement: 12
-      Rotation: 60
+      Rotation: 120
     JumpHeight: 2
   _enemies:
   - GameObject: {fileID: 1322806845}
@@ -8117,6 +8127,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1871321875}
     m_Modifications:
+    - target: {fileID: 278615172506386097, guid: 6e34d528ff6d3ce44bc22e1f82710795,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 80
+      objectReference: {fileID: 0}
     - target: {fileID: 278615172506386102, guid: 6e34d528ff6d3ce44bc22e1f82710795,
         type: 3}
       propertyPath: m_RootOrder
