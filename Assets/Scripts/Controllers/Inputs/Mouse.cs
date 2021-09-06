@@ -24,8 +24,8 @@ namespace Assets.Scripts.Controllers.Inputs
             {
                 if (_isDown)
                 {
-                    var direction = Input.mousePosition - _initialPosition;
-                    var signedDirection = Mathf.Sign(direction.x);
+                    var direction = Input.mousePosition.x - _initialPosition.x;
+                    var signedDirection = Mathf.Sign(direction);
 
                     OnRotate(signedDirection);
                 }

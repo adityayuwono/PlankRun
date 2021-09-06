@@ -5,6 +5,7 @@ using Assets.Scripts.Managers;
 using Assets.Scripts.Models;
 using Assets.Scripts.Models.Enums;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -20,7 +21,8 @@ namespace Assets.Scripts
 
         [Header("UI")]
         [SerializeField] private Button _restartGameButton;
-        [SerializeField] private Text _leadershipInformation;
+        [SerializeField] private Text _rank;
+        [SerializeField] private Text _leadership;
 
         private Character _player;
         private List<Enemy> _enemyControllers = new List<Enemy>();
@@ -35,6 +37,7 @@ namespace Assets.Scripts
 
             _onStateChanged.Add(GameState.Playing, OnPlayingStart);
             _onStateChanged.Add(GameState.GameOver, OnGameOver);
+            _onStateChanged.Add(GameState.Victory, OnVictory);
 
             InputHandler = new Mouse();
 
@@ -57,24 +60,24 @@ namespace Assets.Scripts
 
             InputHandler.ProcessForRotation(_player.Control.Rotate);
 
-            var playerPosition = 1;
+            var playerRank = 1;
 
-            foreach(var enemy in _enemyControllers)
+            foreach (var enemy in _enemyControllers)
             {
                 if (enemy.DistanceToGoal < _player.DistanceToGoal)
                 {
-                    playerPosition++;
+                    playerRank++;
                 }
 
                 enemy.Update();
             }
 
-            _leadershipInformation.text = playerPosition.ToString();
+            _rank.text = playerRank.ToString();
         }
 
         protected override void State_GameOver()
         {
-            
+
         }
 
         protected override void State_Victory()
@@ -109,7 +112,30 @@ namespace Assets.Scripts
 
         private void OnGameOver()
         {
-            foreach(var enemy in _enemyControllers)
+            Debug.Log("Game over");
+            ShowLeadership();
+            DisableEnemies();
+        }
+
+        private void OnVictory()
+        {
+            Debug.Log("Victory");
+            ShowLeadership();
+            DisableEnemies();
+        }
+
+        private void ShowLeadership()
+        {
+            var characters = new List<Character>();
+            characters.Add(_player);
+            characters.AddRange(_enemyControllers);
+
+            _leadership.text = string.Join("\n", characters.OrderBy(c => c.DistanceToGoal).Select(c => c.Name).ToArray());
+        }
+
+        private void DisableEnemies()
+        {
+            foreach (var enemy in _enemyControllers)
             {
                 enemy.GameOver(true);
             }

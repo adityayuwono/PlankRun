@@ -14,7 +14,7 @@ namespace Assets.Scripts.Controllers
 
         public IControlCharacter Control;
 
-        protected Transform Goal;
+        protected Transform _finalGoal;
         protected Transform Transform;
 
         private Transform _plankRoot;
@@ -24,9 +24,16 @@ namespace Assets.Scripts.Controllers
 
         public Character(CharacterModel model, GameObject plankTemplate, Transform goal)
         {
+            Name = model.GameObject.name;
+
             Transform = model.GameObject.transform;
             _plankTemplate = plankTemplate;
-            Goal = goal;
+
+            _finalGoal = goal;
+            while (_finalGoal.childCount > 0)
+            {
+                _finalGoal = _finalGoal.GetChild(0);
+            }
 
             _plankRoot = Transform.Find("PlankRoot");
 
@@ -34,8 +41,9 @@ namespace Assets.Scripts.Controllers
             collisionHandler.OnCollision += HandleVisionCollision;
         }
 
+        public string Name { get; }
         public virtual int PlankCount { get; protected set; }
-        public float DistanceToGoal { get { return Vector3.Distance(Transform.position, Goal.position); } }
+        public float DistanceToGoal { get { return Vector3.Distance(Transform.position, _finalGoal.position); } }
 
         public virtual void Update()
         {
@@ -51,19 +59,19 @@ namespace Assets.Scripts.Controllers
 
             var sequence = DOTween.Sequence();
             var finalMoveTarget = Vector3.up * PlankCount * 0.2f;
-            
+
             var firstMoveTarget = finalMoveTarget;
             firstMoveTarget.z += 1.5f;
             firstMoveTarget.y += 2f;
-            
+
             sequence.Join(plank.DOLocalMove(firstMoveTarget, 0.1f));
             sequence.Join(plank.DOLocalRotate(Vector3.zero, 0.1f));
 
             sequence.Append(plank.DOLocalRotate(Vector3.right * 180, 0.1f, RotateMode.LocalAxisAdd));
-            
+
             sequence.Append(plank.DOLocalMove(finalMoveTarget, 0.1f));
-            sequence.Join(plank.DOLocalRotate(Vector3.right*360, 0.1f, RotateMode.LocalAxisAdd));
-            
+            sequence.Join(plank.DOLocalRotate(Vector3.right * 360, 0.1f, RotateMode.LocalAxisAdd));
+
             sequence.Play();
         }
 

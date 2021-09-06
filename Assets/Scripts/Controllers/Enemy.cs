@@ -171,7 +171,6 @@ namespace Assets.Scripts.Controllers
 
         private void UpdateDestination(Transform destination)
         {
-            Debug.Log("new destination: " + destination.gameObject.name);
             _agent.SetDestination(destination.position);
         }
     }
