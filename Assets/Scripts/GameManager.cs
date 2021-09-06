@@ -49,6 +49,24 @@ namespace Assets.Scripts
             StateContainer?.Invoke();
         }
 
+        private void CreatePlayer()
+        {
+            _player = new Player(_playerModel, _plankTemplate, _stage.FinalGoal);
+            _player.OnGameOver += () => GoToState(GameState.GameOver);
+            _player.OnVictory += () => GoToState(GameState.Victory);
+        }
+
+        private void CreateEnemies()
+        {
+            foreach (var enemy in _enemies)
+            {
+                var enemyController = new Enemy(enemy, _plankTemplate, _stage.EnemyGoalHierarchy);
+                enemyController.OnVictory += () => GoToState(GameState.GameOver);
+                _enemyControllers.Add(enemyController);
+            }
+        }
+
+        #region States
         protected override void State_StartMenu()
         {
             InputHandler.ProcessForRotation((_) => { GoToState(GameState.Playing); });
@@ -84,24 +102,9 @@ namespace Assets.Scripts
         {
 
         }
+        #endregion
 
-        private void CreatePlayer()
-        {
-            _player = new Player(_playerModel, _plankTemplate, _stage.FinalGoal);
-            _player.OnGameOver += () => GoToState(GameState.GameOver);
-            _player.OnVictory += () => GoToState(GameState.Victory);
-        }
-
-        private void CreateEnemies()
-        {
-            foreach (var enemy in _enemies)
-            {
-                var enemyController = new Enemy(enemy, _plankTemplate, _stage.EnemyGoalHierarchy);
-                enemyController.OnVictory += () => GoToState(GameState.GameOver);
-                _enemyControllers.Add(enemyController);
-            }
-        }
-
+        #region State Events
         private void OnPlayingStart()
         {
             foreach (var enemy in _enemyControllers)
@@ -112,14 +115,12 @@ namespace Assets.Scripts
 
         private void OnGameOver()
         {
-            Debug.Log("Game over");
             ShowLeadership();
             DisableEnemies();
         }
 
         private void OnVictory()
         {
-            Debug.Log("Victory");
             ShowLeadership();
             DisableEnemies();
         }
@@ -140,6 +141,7 @@ namespace Assets.Scripts
                 enemy.GameOver(true);
             }
         }
+        #endregion
 
         private void RestartGame()
         {
