@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Components;
 using Assets.Scripts.Interfaces;
 using Assets.Scripts.Models;
+using DG.Tweening;
 using System;
 using UnityEngine;
 
@@ -46,16 +47,51 @@ namespace Assets.Scripts.Controllers
             PlankCount++;
 
             plank.GetComponent<Collider>().enabled = false;
-            plank.SetParent(_plankRoot, false);
-            plank.localPosition = Vector3.up * PlankCount * 0.2f;
+            plank.SetParent(_plankRoot, true);
+
+            var sequence = DOTween.Sequence();
+            var finalMoveTarget = Vector3.up * PlankCount * 0.2f;
+            
+            var firstMoveTarget = finalMoveTarget;
+            firstMoveTarget.z += 1.5f;
+            firstMoveTarget.y += 2f;
+            
+            sequence.Join(plank.DOLocalMove(firstMoveTarget, 0.1f));
+            sequence.Join(plank.DOLocalRotate(Vector3.zero, 0.1f));
+
+            sequence.Append(plank.DOLocalRotate(Vector3.right * 180, 0.1f, RotateMode.LocalAxisAdd));
+            
+            sequence.Append(plank.DOLocalMove(finalMoveTarget, 0.1f));
+            sequence.Join(plank.DOLocalRotate(Vector3.right*360, 0.1f, RotateMode.LocalAxisAdd));
+            
+            sequence.Play();
         }
 
-        public void RemovePlank()
+        public void RemovePlank(Vector3 targetPosition)
         {
             PlankCount--;
 
             var plank = _plankRoot.GetChild(PlankCount);
-            GameObject.Destroy(plank.gameObject);
+            plank.SetParent(null);
+
+            var sequence = DOTween.Sequence();
+            var finalMoveTarget = targetPosition;
+
+            var firstMoveTarget = plank.position;
+            firstMoveTarget.z += 1.5f;
+            firstMoveTarget.y += 2f;
+
+            sequence.Join(plank.DOMove(firstMoveTarget, 0.1f));
+            sequence.Join(plank.DOLocalRotate(Vector3.right * 360, 0.1f, RotateMode.LocalAxisAdd));
+
+            sequence.Append(plank.DOLocalRotate(Vector3.right * 180, 0.1f, RotateMode.LocalAxisAdd));
+
+            sequence.Append(plank.DOMove(finalMoveTarget, 0.1f));
+            sequence.Join(plank.DOLocalRotate(Vector3.zero, 0.1f));
+
+            sequence.AppendCallback(() => GameObject.Destroy(plank.gameObject));
+
+            sequence.Play();
         }
 
         private void HandleVisionCollision(IInteractable collidee)
@@ -97,7 +133,7 @@ namespace Assets.Scripts.Controllers
 
             if (distance >= 1.5f)
             {
-                RemovePlank();
+                RemovePlank(newPlankPosition);
                 _lastPlankPosition = newPlankPosition;
 
                 var plank = GameObject.Instantiate(_plankTemplate);

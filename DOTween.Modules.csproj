@@ -9,10 +9,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{236B90AF-14D3-B739-79EF-AD7F7277F833}</ProjectGuid>
+    <ProjectGuid>{D936D92C-90A7-A469-55A6-08B66EBFF34E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>GameFiveRun</AssemblyName>
+    <AssemblyName>DOTween.Modules</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -56,40 +56,17 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Extensions\UnityExtensions.cs" />
-    <Compile Include="Assets\Scripts\Components\VisionCollisionHandler.cs" />
-    <Compile Include="Assets\Scripts\Controllers\Controls\PlayerControl.cs" />
-    <Compile Include="Assets\Scripts\Controllers\Interactables\EnemiesTargetThis.cs" />
-    <Compile Include="Assets\Scripts\Models\StageModel.cs" />
-    <Compile Include="Assets\Scripts\Components\CollisionHandler.cs" />
-    <Compile Include="Assets\Scripts\Controllers\Interactables\Water.cs" />
-    <Compile Include="Assets\Scripts\Controllers\Animator.cs" />
-    <Compile Include="Assets\Scripts\Models\StateUIModel.cs" />
-    <Compile Include="Assets\Scripts\Models\CharacterModel.cs" />
-    <Compile Include="Assets\Scripts\Models\Enums\GameState.cs" />
-    <Compile Include="Assets\Scripts\Controllers\Enemy.cs" />
-    <Compile Include="Assets\Scripts\Managers\GameStateManager.cs" />
-    <Compile Include="Assets\Scripts\Models\SpeedModel.cs" />
-    <Compile Include="Assets\Scripts\Components\ControllerContainer.cs" />
-    <Compile Include="Assets\Scripts\Controllers\Controls\DisabledControl.cs" />
-    <Compile Include="Assets\Scripts\Controllers\Player.cs" />
-    <Compile Include="Assets\Scripts\Components\ShortcutCollisionCheck.cs" />
-    <Compile Include="Assets\Scripts\Controllers\Inputs\Touch.cs" />
-    <Compile Include="Assets\Scripts\Interfaces\IControlCharacter.cs" />
-    <Compile Include="Assets\Scripts\Constants\WorldValues.cs" />
-    <Compile Include="Assets\Scripts\Controllers\Interactables\JumpBooster.cs" />
-    <Compile Include="Assets\Scripts\Controllers\Character.cs" />
-    <Compile Include="Assets\Scripts\Controllers\Inputs\Mouse.cs" />
-    <Compile Include="Assets\Scripts\Controllers\Interactables\Plank.cs" />
-    <Compile Include="Assets\Scripts\Interfaces\IHandleInput.cs" />
-    <Compile Include="Assets\Scripts\Controllers\Controls\EnemyControl.cs" />
-    <Compile Include="Assets\Scripts\Interfaces\IInteractable.cs" />
-    <Compile Include="Assets\Scripts\Controllers\Controller.cs" />
-    <Compile Include="Assets\Scripts\Controllers\Interactables\Goal.cs" />
-    <Compile Include="Assets\Scripts\GameManager.cs" />
+    <Compile Include="Assets\Libraries\DOTween\Modules\DOTweenModuleSprite.cs" />
+    <Compile Include="Assets\Libraries\DOTween\Modules\DOTweenModuleUtils.cs" />
+    <Compile Include="Assets\Libraries\DOTween\Modules\DOTweenModulePhysics2D.cs" />
+    <Compile Include="Assets\Libraries\DOTween\Modules\DOTweenModuleAudio.cs" />
+    <Compile Include="Assets\Libraries\DOTween\Modules\DOTweenModuleEPOOutline.cs" />
+    <Compile Include="Assets\Libraries\DOTween\Modules\DOTweenModuleUnityVersion.cs" />
+    <Compile Include="Assets\Libraries\DOTween\Modules\DOTweenModulePhysics.cs" />
+    <Compile Include="Assets\Libraries\DOTween\Modules\DOTweenModuleUI.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Scripts\GameFiveRun.asmdef" />
+    <None Include="Assets\Libraries\DOTween\Modules\DOTween.Modules.asmdef" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -691,10 +668,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="DOTween.Modules.csproj">
-      <Project>{D936D92C-90A7-A469-55A6-08B66EBFF34E}</Project>
-      <Name>DOTween.Modules</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

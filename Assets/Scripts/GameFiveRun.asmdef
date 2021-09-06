@@ -1,3 +1,16 @@
-﻿{
-	"name": "GameFiveRun"
+{
+    "name": "GameFiveRun",
+    "rootNamespace": "",
+    "references": [
+        "GUID:41e6414f626bffc40bfea2e77e5c6d3c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }
